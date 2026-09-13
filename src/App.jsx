@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import {
   Cake, CakeSlice, Candy, Cookie, Croissant, Plus, Minus, Pencil, Trash2,
   Lock, LogOut, X, Check, Phone, Instagram, MapPin, Clock,
-  ShoppingBag, Settings, Package, Bike, Store, Receipt, Mail, KeyRound
+  ShoppingBag, Settings, Package, Bike, Store, Receipt, Mail, KeyRound, Image as ImageIcon
 } from "lucide-react";
 import { supabase } from "./lib/supabase.js";
 
@@ -16,8 +16,8 @@ const CATEGORY_ICON = {
 };
 
 const ACCENTS = {
-  vinho: { bg: "#7A2E3A", soft: "#F3E1E4" },
-  dourado: { bg: "#B9812E", soft: "#F6ECD8" },
+  vinho: { bg: "var(--color-primary)", soft: "#F3E1E4" },
+  dourado: { bg: "var(--color-gold)", soft: "#F6ECD8" },
   rosa: { bg: "#B4536E", soft: "#F6E2E8" },
   verde: { bg: "#5C6E4A", soft: "#E9EDE1" },
 };
@@ -138,21 +138,31 @@ function useOrders(session) {
 
 // ---------- Componentes visuais ----------
 
-function Logo({ name, size = 34 }) {
+function Logo({ name, tagline, size = 40, showTagline = false }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
       <div style={{
-        width: size, height: size, borderRadius: "50%", background: "#7A2E3A",
+        width: size, height: size, borderRadius: "50%", background: "var(--color-primary)",
         display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
       }}>
-        <Cake size={size * 0.55} color="#F0C6CE" strokeWidth={1.6} />
+        <Cake size={size * 0.5} color="#F6E2E8" strokeWidth={1.6} />
       </div>
-      <span style={{
-        fontFamily: "'Fraunces', Georgia, serif", fontSize: 21, fontStyle: "italic",
-        color: "#2B2320", letterSpacing: "-0.01em",
-      }}>
-        {name}
-      </span>
+      <div>
+        <span style={{
+          display: "block", fontFamily: "'Alex Brush', cursive", fontSize: size,
+          lineHeight: 1, color: "var(--color-primary)",
+        }}>
+          {name}
+        </span>
+        {showTagline && tagline && (
+          <span style={{
+            display: "block", fontFamily: "'Public Sans', sans-serif", fontSize: 11,
+            letterSpacing: "0.12em", textTransform: "uppercase", color: "#8A7E74", marginTop: 2,
+          }}>
+            {tagline}
+          </span>
+        )}
+      </div>
     </div>
   );
 }
@@ -164,7 +174,7 @@ function Header({ settings, onNav, cartCount, onCartClick }) {
       borderBottom: "1px solid #E8DDD1", padding: "16px 6vw",
       display: "flex", alignItems: "center", justifyContent: "space-between",
     }}>
-      <Logo name={settings.name} />
+      <Logo name={settings.name} tagline={settings.tagline} showTagline size={38} />
       <div style={{ display: "flex", alignItems: "center", gap: 26 }}>
         <nav style={{ display: "flex", gap: 26 }} className="hide-mobile">
           {["Cardápio", "Nossa história", "Encomendas"].map((label) => (
@@ -180,7 +190,7 @@ function Header({ settings, onNav, cartCount, onCartClick }) {
           <ShoppingBag size={19} color="#2B2320" strokeWidth={1.7} />
           {cartCount > 0 && (
             <span style={{
-              position: "absolute", top: -6, right: -6, background: "#7A2E3A", color: "#FBF6F0",
+              position: "absolute", top: -6, right: -6, background: "var(--color-primary)", color: "#FBF6F0",
               fontSize: 11, fontFamily: "'Public Sans', sans-serif", borderRadius: 999,
               minWidth: 18, height: 18, display: "flex", alignItems: "center", justifyContent: "center",
               padding: "0 4px", fontWeight: 600,
@@ -204,7 +214,7 @@ function Hero({ onCta }) {
   return (
     <section style={{ padding: "72px 6vw 64px", display: "flex", alignItems: "center", gap: 48, flexWrap: "wrap" }}>
       <div style={{ flex: "1 1 380px", minWidth: 280 }}>
-        <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 15, color: "#B9812E", margin: "0 0 14px", fontWeight: 600 }}>
+        <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 15, color: "var(--color-gold)", margin: "0 0 14px", fontWeight: 600 }}>
           Feito à mão, todos os dias
         </p>
         <h1 style={{
@@ -220,7 +230,7 @@ function Hero({ onCta }) {
         </p>
         <button onClick={onCta} style={{
           fontFamily: "'Public Sans', sans-serif", fontSize: 16, fontWeight: 600,
-          background: "#7A2E3A", color: "#FBF6F0", border: "none",
+          background: "var(--color-primary)", color: "#FBF6F0", border: "none",
           padding: "14px 30px", borderRadius: 4, cursor: "pointer",
         }}>
           Ver cardápio
@@ -239,15 +249,15 @@ function CakeIllustration() {
       <ellipse cx="150" cy="252" rx="108" ry="14" fill="#F0E4D6" />
       <rect x="60" y="180" width="180" height="62" rx="6" fill="#F6ECD8" stroke="#E8DDD1" />
       <rect x="78" y="126" width="144" height="58" rx="6" fill="#F3E1E4" stroke="#E8DDD1" />
-      <rect x="96" y="76" width="108" height="54" rx="6" fill="#7A2E3A" />
+      <rect x="96" y="76" width="108" height="54" rx="6" fill="var(--color-primary)" />
       <path d="M96 90 Q150 78 204 90" stroke="#F0C6CE" strokeWidth="4" fill="none" />
-      <path d="M78 140 Q150 126 222 140" stroke="#B9812E" strokeWidth="4" fill="none" />
+      <path d="M78 140 Q150 126 222 140" stroke="var(--color-gold)" strokeWidth="4" fill="none" />
       <path d="M60 194 Q150 178 240 194" stroke="#B4536E" strokeWidth="4" fill="none" />
-      <circle cx="150" cy="68" r="5" fill="#B9812E" />
+      <circle cx="150" cy="68" r="5" fill="var(--color-gold)" />
       <rect x="147" y="40" width="6" height="30" rx="3" fill="#5B5049" />
       <path d="M150 40 Q158 26 150 14 Q142 26 150 40 Z" fill="#E8A23A" />
       {[105, 135, 165, 195].map((x, i) => (
-        <circle key={i} cx={x} cy="102" r="5" fill={i % 2 ? "#B4536E" : "#B9812E"} />
+        <circle key={i} cx={x} cy="102" r="5" fill={i % 2 ? "#B4536E" : "var(--color-gold)"} />
       ))}
     </svg>
   );
@@ -265,8 +275,8 @@ function MenuSection({ products, activeCategory, setActiveCategory, id, onAdd, c
         {["Todos", ...CATEGORIES].map((cat) => (
           <button key={cat} onClick={() => setActiveCategory(cat)} style={{
             fontFamily: "'Public Sans', sans-serif", fontSize: 14, padding: "9px 18px", borderRadius: 999, cursor: "pointer",
-            border: cat === activeCategory ? "1px solid #7A2E3A" : "1px solid #E8DDD1",
-            background: cat === activeCategory ? "#7A2E3A" : "transparent",
+            border: cat === activeCategory ? "1px solid var(--color-primary)" : "1px solid #E8DDD1",
+            background: cat === activeCategory ? "var(--color-primary)" : "transparent",
             color: cat === activeCategory ? "#FBF6F0" : "#4A3F38",
           }}>
             {cat}
@@ -282,21 +292,27 @@ function MenuSection({ products, activeCategory, setActiveCategory, id, onAdd, c
             const accent = ACCENTS[p.accent] || ACCENTS.vinho;
             const qtyInCart = cartMap[p.id] || 0;
             return (
-              <div key={p.id} style={{ border: "1px solid #E8DDD1", borderRadius: 10, padding: 22, display: "flex", flexDirection: "column", gap: 12, background: "#fff" }}>
-                <div style={{ width: 44, height: 44, borderRadius: "50%", background: accent.soft, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Icon size={22} color={accent.bg} strokeWidth={1.6} />
-                </div>
+              <div key={p.id} style={{ border: "1px solid #E8DDD1", borderRadius: 10, overflow: "hidden", display: "flex", flexDirection: "column", gap: 12, background: "#fff" }}>
+                {p.image_url ? (
+                  <img src={p.image_url} alt={p.name} style={{ width: "100%", height: 160, objectFit: "cover" }} />
+                ) : (
+                  <div style={{ width: "100%", height: 160, background: accent.soft, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Icon size={40} color={accent.bg} strokeWidth={1.3} />
+                  </div>
+                )}
+                <div style={{ padding: "0 22px 22px", display: "flex", flexDirection: "column", gap: 12, flex: 1 }}>
                 <h3 style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 19, color: "#2B2320", margin: 0 }}>{p.name}</h3>
                 <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 14, color: "#5B5049", margin: 0, lineHeight: 1.55, flex: 1 }}>{p.description}</p>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
                   <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 17, fontWeight: 600, color: "#2B2320", margin: 0 }}>{formatPrice(p.price)}</p>
                   <button onClick={() => onAdd(p)} style={{
-                    background: "#7A2E3A", color: "#FBF6F0", border: "none", borderRadius: 6, padding: "8px 14px",
+                    background: "var(--color-primary)", color: "#FBF6F0", border: "none", borderRadius: 6, padding: "8px 14px",
                     fontFamily: "'Public Sans', sans-serif", fontSize: 13, fontWeight: 600, cursor: "pointer",
                     display: "flex", alignItems: "center", gap: 6,
                   }}>
                     <Plus size={14} /> {qtyInCart > 0 ? `Adicionado (${qtyInCart})` : "Adicionar"}
                   </button>
+                </div>
                 </div>
               </div>
             );
@@ -326,8 +342,8 @@ function AboutSection({ id }) {
         <div style={{ flex: "1 1 260px", minWidth: 220, display: "flex", justifyContent: "center" }}>
           <svg width="220" height="220" viewBox="0 0 220 220" aria-hidden="true">
             <circle cx="110" cy="110" r="100" fill="#F3E1E4" />
-            <circle cx="110" cy="92" r="34" fill="#7A2E3A" />
-            <path d="M60 190 Q110 130 160 190 Z" fill="#7A2E3A" />
+            <circle cx="110" cy="92" r="34" fill="var(--color-primary)" />
+            <path d="M60 190 Q110 130 160 190 Z" fill="var(--color-primary)" />
           </svg>
         </div>
       </div>
@@ -356,7 +372,7 @@ function ContactSection({ id, settings }) {
 function ContactItem({ icon: Icon, label }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-      <Icon size={19} color="#B9812E" strokeWidth={1.7} />
+      <Icon size={19} color="var(--color-gold)" strokeWidth={1.7} />
       <span style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 15, color: "#4A3F38" }}>{label}</span>
     </div>
   );
@@ -519,13 +535,13 @@ function CartDrawer({ open, onClose, cart, updateQty, removeItem, settings, clea
 
         {sent ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            <p style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 20, color: "#7A2E3A", margin: 0 }}>
+            <p style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 20, color: "var(--color-primary)", margin: 0 }}>
               Pedido {formatOrderNumber(settings.name, orderNumber)}
             </p>
             <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 15, color: "#5B5049", lineHeight: 1.6, margin: 0 }}>
               Abrimos o WhatsApp com os detalhes do seu pedido. É só conferir e enviar a mensagem por lá para confirmar com a gente. Guarde o número do pedido.
             </p>
-            <button onClick={close} style={{ background: "#7A2E3A", color: "#FBF6F0", border: "none", padding: "12px", borderRadius: 6, fontFamily: "'Public Sans', sans-serif", fontSize: 15, fontWeight: 600, cursor: "pointer" }}>
+            <button onClick={close} style={{ background: "var(--color-primary)", color: "#FBF6F0", border: "none", padding: "12px", borderRadius: 6, fontFamily: "'Public Sans', sans-serif", fontSize: 15, fontWeight: 600, cursor: "pointer" }}>
               Fechar
             </button>
           </div>
@@ -560,7 +576,7 @@ function CartDrawer({ open, onClose, cart, updateQty, removeItem, settings, clea
               </div>
             )}
             {error && <p style={{ color: "#A33", fontSize: 13, fontFamily: "'Public Sans', sans-serif", margin: 0 }}>{error}</p>}
-            <button onClick={goToCheckout} style={{ background: "#7A2E3A", color: "#FBF6F0", border: "none", padding: "13px", borderRadius: 6, fontFamily: "'Public Sans', sans-serif", fontSize: 15, fontWeight: 600, cursor: "pointer" }}>
+            <button onClick={goToCheckout} style={{ background: "var(--color-primary)", color: "#FBF6F0", border: "none", padding: "13px", borderRadius: 6, fontFamily: "'Public Sans', sans-serif", fontSize: 15, fontWeight: 600, cursor: "pointer" }}>
               Continuar
             </button>
           </>
@@ -569,13 +585,13 @@ function CartDrawer({ open, onClose, cart, updateQty, removeItem, settings, clea
             <div>
               <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 13, color: "#5B5049", margin: "0 0 10px", fontWeight: 600 }}>Retirada ou entrega</p>
               <div style={{ display: "flex", gap: 10 }}>
-                <label style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, border: "1px solid " + (deliveryType === "retirada" ? "#7A2E3A" : "#E8DDD1"), borderRadius: 8, padding: "12px 10px", cursor: "pointer" }}>
+                <label style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, border: "1px solid " + (deliveryType === "retirada" ? "var(--color-primary)" : "#E8DDD1"), borderRadius: 8, padding: "12px 10px", cursor: "pointer" }}>
                   <input type="radio" name="deliveryType" checked={deliveryType === "retirada"} onChange={() => setDeliveryType("retirada")} style={{ display: "none" }} />
                   <Store size={18} color="#2B2320" />
                   <span style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 13, color: "#2B2320" }}>Retirada</span>
                 </label>
                 {settings.delivery_enabled && (
-                  <label style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, border: "1px solid " + (deliveryType === "entrega" ? "#7A2E3A" : "#E8DDD1"), borderRadius: 8, padding: "12px 10px", cursor: "pointer" }}>
+                  <label style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, border: "1px solid " + (deliveryType === "entrega" ? "var(--color-primary)" : "#E8DDD1"), borderRadius: 8, padding: "12px 10px", cursor: "pointer" }}>
                     <input type="radio" name="deliveryType" checked={deliveryType === "entrega"} onChange={() => setDeliveryType("entrega")} style={{ display: "none" }} />
                     <Bike size={18} color="#2B2320" />
                     <span style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 13, color: "#2B2320" }}>Entrega</span>
@@ -600,7 +616,7 @@ function CartDrawer({ open, onClose, cart, updateQty, removeItem, settings, clea
                 {PAYMENT_OPTIONS.map((opt) => {
                   const fee = opt.feeKey ? settings[opt.feeKey] : 0;
                   return (
-                    <label key={opt.key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, border: "1px solid " + (payment === opt.key ? "#7A2E3A" : "#E8DDD1"), borderRadius: 8, padding: "10px 14px", cursor: "pointer", fontFamily: "'Public Sans', sans-serif" }}>
+                    <label key={opt.key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, border: "1px solid " + (payment === opt.key ? "var(--color-primary)" : "#E8DDD1"), borderRadius: 8, padding: "10px 14px", cursor: "pointer", fontFamily: "'Public Sans', sans-serif" }}>
                       <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
                         <input type="radio" name="payment" checked={payment === opt.key} onChange={() => setPayment(opt.key)} />
                         <span style={{ fontSize: 14, color: "#2B2320" }}>{opt.label}</span>
@@ -687,7 +703,7 @@ function LoginGate({ onSuccess, onBack }) {
     <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "48px 6vw" }}>
       <div style={{ width: "100%", maxWidth: 360, border: "1px solid #E8DDD1", borderRadius: 10, padding: 32, background: "#fff", display: "flex", flexDirection: "column", gap: 16 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-          <Lock size={20} color="#7A2E3A" strokeWidth={1.7} />
+          <Lock size={20} color="var(--color-primary)" strokeWidth={1.7} />
           <h2 style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 22, margin: 0, color: "#2B2320" }}>Painel administrativo</h2>
         </div>
         <div style={{ position: "relative" }}>
@@ -714,7 +730,7 @@ function LoginGate({ onSuccess, onBack }) {
         </div>
         {err && <p style={{ color: "#A33", fontSize: 13, margin: 0, fontFamily: "'Public Sans', sans-serif" }}>{err}</p>}
         <button type="button" onClick={submit} disabled={loading} style={{
-          background: loading ? "#C9BDB4" : "#7A2E3A", color: "#FBF6F0", border: "none", padding: "12px", borderRadius: 6,
+          background: loading ? "#C9BDB4" : "var(--color-primary)", color: "#FBF6F0", border: "none", padding: "12px", borderRadius: 6,
           fontFamily: "'Public Sans', sans-serif", fontSize: 15, fontWeight: 600, cursor: loading ? "not-allowed" : "pointer",
         }}>
           {loading ? "Entrando…" : "Entrar"}
@@ -727,12 +743,31 @@ function LoginGate({ onSuccess, onBack }) {
   );
 }
 
-const emptyForm = { name: "", description: "", price: "", category: CATEGORIES[0], accent: "vinho", published: true };
+const emptyForm = { name: "", description: "", price: "", category: CATEGORIES[0], accent: "vinho", published: true, image_url: "" };
 
 function ProductForm({ initial, onSave, onCancel }) {
   const [form, setForm] = useState(initial || emptyForm);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const handlePhoto = async (file) => {
+    if (!file) return;
+    setUploading(true);
+    setError("");
+    try {
+      const ext = file.name.split(".").pop();
+      const path = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error: uploadError } = await supabase.storage.from("product-images").upload(path, file);
+      if (uploadError) throw uploadError;
+      const { data } = supabase.storage.from("product-images").getPublicUrl(path);
+      setForm((f) => ({ ...f, image_url: data.publicUrl }));
+    } catch (e) {
+      setError("Não foi possível enviar a foto. Tente uma imagem menor (até 2MB).");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const submit = async () => {
     if (!form.name.trim()) { setError("Dê um nome ao produto."); return; }
@@ -753,6 +788,25 @@ function ProductForm({ initial, onSave, onCancel }) {
   return (
     <div style={{ border: "1px solid #E8DDD1", borderRadius: 10, padding: 24, background: "#fff", display: "flex", flexDirection: "column", gap: 14, marginBottom: 28 }}>
       <h3 style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 19, margin: 0, color: "#2B2320" }}>{initial ? "Editar produto" : "Novo produto"}</h3>
+      {field("Foto do produto", (
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {form.image_url ? (
+            <img src={form.image_url} alt="" style={{ width: 64, height: 64, borderRadius: 8, objectFit: "cover", border: "1px solid #E8DDD1" }} />
+          ) : (
+            <div style={{ width: 64, height: 64, borderRadius: 8, border: "1px dashed #E8DDD1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <ImageIcon size={20} color="#8A7E74" strokeWidth={1.5} />
+            </div>
+          )}
+          <label style={{
+            fontFamily: "'Public Sans', sans-serif", fontSize: 13, color: "#4A3F38", cursor: "pointer",
+            border: "1px solid #E8DDD1", borderRadius: 6, padding: "8px 14px",
+          }}>
+            {uploading ? "Enviando…" : form.image_url ? "Trocar foto" : "Adicionar foto"}
+            <input type="file" accept="image/*" style={{ display: "none" }} disabled={uploading}
+              onChange={(e) => handlePhoto(e.target.files?.[0])} />
+          </label>
+        </div>
+      ))}
       {field("Nome", <input style={inputStyle} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Bolo de cenoura com brigadeiro" />)}
       {field("Descrição", <textarea style={{ ...inputStyle, minHeight: 64, resize: "vertical" }} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Conte o que torna esse doce especial" />)}
       <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -762,7 +816,7 @@ function ProductForm({ initial, onSave, onCancel }) {
             {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         ))}
-        {field("Cor do rótulo", (
+        {field("Cor do rótulo (se não tiver foto)", (
           <select style={inputStyle} value={form.accent} onChange={(e) => setForm({ ...form, accent: e.target.value })}>
             {Object.keys(ACCENTS).map((a) => <option key={a} value={a}>{a}</option>)}
           </select>
@@ -775,7 +829,7 @@ function ProductForm({ initial, onSave, onCancel }) {
       {error && <p style={{ color: "#A33", fontSize: 13, margin: 0, fontFamily: "'Public Sans', sans-serif" }}>{error}</p>}
       <div style={{ display: "flex", gap: 10 }}>
         <button type="button" onClick={submit} disabled={saving} style={{
-          background: "#7A2E3A", color: "#FBF6F0", border: "none", padding: "10px 20px", borderRadius: 6,
+          background: "var(--color-primary)", color: "#FBF6F0", border: "none", padding: "10px 20px", borderRadius: 6,
           fontFamily: "'Public Sans', sans-serif", fontSize: 14, fontWeight: 600, cursor: saving ? "not-allowed" : "pointer",
           display: "flex", alignItems: "center", gap: 6,
         }}>
@@ -824,7 +878,7 @@ function ProductsTab({ products, refreshProducts }) {
       <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 18 }}>
         {!showForm && (
           <button onClick={startNew} style={{
-            background: "#7A2E3A", color: "#FBF6F0", border: "none", padding: "10px 18px", borderRadius: 6,
+            background: "var(--color-primary)", color: "#FBF6F0", border: "none", padding: "10px 18px", borderRadius: 6,
             fontFamily: "'Public Sans', sans-serif", fontSize: 14, fontWeight: 600, cursor: "pointer",
             display: "flex", alignItems: "center", gap: 6,
           }}>
@@ -839,6 +893,13 @@ function ProductsTab({ products, refreshProducts }) {
         {products.length === 0 && <p style={{ fontFamily: "'Public Sans', sans-serif", color: "#8A7E74" }}>Nenhum produto cadastrado ainda. Crie o primeiro acima.</p>}
         {products.map((p) => (
           <div key={p.id} style={{ border: "1px solid #E8DDD1", borderRadius: 8, padding: "14px 18px", display: "flex", alignItems: "center", gap: 16, background: "#fff", flexWrap: "wrap" }}>
+            {p.image_url ? (
+              <img src={p.image_url} alt="" style={{ width: 40, height: 40, borderRadius: 6, objectFit: "cover" }} />
+            ) : (
+              <div style={{ width: 40, height: 40, borderRadius: 6, background: (ACCENTS[p.accent] || ACCENTS.vinho).soft, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <ImageIcon size={16} color="#8A7E74" />
+              </div>
+            )}
             <div style={{ flex: 1, minWidth: 180 }}>
               <p style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 16, margin: 0, color: "#2B2320" }}>{p.name}</p>
               <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 13, color: "#8A7E74", margin: "2px 0 0" }}>{p.category} · {formatPrice(p.price)}</p>
@@ -895,7 +956,27 @@ function SettingsTab({ settings, refreshSettings }) {
 
   return (
     <div style={{ border: "1px solid #E8DDD1", borderRadius: 10, padding: 24, background: "#fff", display: "flex", flexDirection: "column", gap: 16, maxWidth: 540 }}>
-      <p style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 17, margin: 0, color: "#2B2320" }}>Dados da loja</p>
+      <p style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 17, margin: 0, color: "#2B2320" }}>Marca</p>
+      {field("Frase da marca (tagline)", <input style={inputStyle} value={form.tagline || ""} onChange={(e) => setForm({ ...form, tagline: e.target.value })} placeholder="Carinho em forma de doce" />)}
+      <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+        {field("Cor principal", (
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <input type="color" value={form.primary_color || "#6B4635"} onChange={(e) => setForm({ ...form, primary_color: e.target.value })} style={{ width: 40, height: 36, border: "1px solid #E8DDD1", borderRadius: 6, padding: 2 }} />
+            <input style={inputStyle} value={form.primary_color || "#6B4635"} onChange={(e) => setForm({ ...form, primary_color: e.target.value })} />
+          </div>
+        ))}
+        {field("Cor de destaque (dourado)", (
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <input type="color" value={form.accent_color || "#B9812E"} onChange={(e) => setForm({ ...form, accent_color: e.target.value })} style={{ width: 40, height: 36, border: "1px solid #E8DDD1", borderRadius: 6, padding: 2 }} />
+            <input style={inputStyle} value={form.accent_color || "#B9812E"} onChange={(e) => setForm({ ...form, accent_color: e.target.value })} />
+          </div>
+        ))}
+      </div>
+      <p style={{ fontFamily: "'Public Sans', sans-serif", fontSize: 12, color: "#8A7E74", margin: 0 }}>
+        Essas cores são usadas em botões, título e detalhes do site inteiro.
+      </p>
+
+      <p style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 17, margin: "8px 0 0", color: "#2B2320" }}>Dados da loja</p>
       {field("Nome da confeitaria", <input style={inputStyle} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />)}
       {field("Endereço", <input style={inputStyle} value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} />)}
       {field("Telefone (exibido no site)", <input style={inputStyle} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} placeholder="(21) 99383-5942" />)}
@@ -929,7 +1010,7 @@ function SettingsTab({ settings, refreshSettings }) {
       {error && <p style={{ color: "#A33", fontSize: 13, margin: 0, fontFamily: "'Public Sans', sans-serif" }}>{error}</p>}
       {saved && <p style={{ color: "#5C6E4A", fontSize: 13, margin: 0, fontFamily: "'Public Sans', sans-serif" }}>Configurações salvas.</p>}
       <button type="button" onClick={submit} disabled={saving} style={{
-        background: "#7A2E3A", color: "#FBF6F0", border: "none", padding: "11px", borderRadius: 6,
+        background: "var(--color-primary)", color: "#FBF6F0", border: "none", padding: "11px", borderRadius: 6,
         fontFamily: "'Public Sans', sans-serif", fontSize: 14, fontWeight: 600, cursor: saving ? "not-allowed" : "pointer",
         display: "flex", alignItems: "center", gap: 6, justifyContent: "center", width: 160,
       }}>
@@ -958,7 +1039,7 @@ function OrdersTab({ orders, loadingOrders, settings }) {
             width: "100%", background: "none", border: "none", cursor: "pointer", textAlign: "left",
             padding: "14px 18px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap",
           }}>
-            <span style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 15, color: "#7A2E3A", minWidth: 90 }}>
+            <span style={{ fontFamily: "'Fraunces', Georgia, serif", fontSize: 15, color: "var(--color-primary)", minWidth: 90 }}>
               {formatOrderNumber(settings.name, o.id)}
             </span>
             <span style={{ flex: 1, minWidth: 140, fontFamily: "'Public Sans', sans-serif", fontSize: 14, color: "#2B2320" }}>{o.customer_name}</span>
@@ -991,8 +1072,8 @@ function AdminDashboard({ products, refreshProducts, settings, refreshSettings, 
   const tabBtn = (key, label, Icon) => (
     <button onClick={() => setTab(key)} style={{
       display: "flex", alignItems: "center", gap: 7, padding: "9px 16px", borderRadius: 999,
-      border: tab === key ? "1px solid #7A2E3A" : "1px solid #E8DDD1",
-      background: tab === key ? "#7A2E3A" : "transparent",
+      border: tab === key ? "1px solid var(--color-primary)" : "1px solid #E8DDD1",
+      background: tab === key ? "var(--color-primary)" : "transparent",
       color: tab === key ? "#FBF6F0" : "#4A3F38",
       fontFamily: "'Public Sans', sans-serif", fontSize: 14, cursor: "pointer",
     }}>
@@ -1076,7 +1157,11 @@ export default function App() {
   const exitAdmin = async () => { await supabase.auth.signOut(); setView("loja"); };
 
   return (
-    <div style={{ background: "#FBF6F0", minHeight: "100vh", fontFamily: "'Public Sans', sans-serif" }}>
+    <div style={{
+      background: "#FBF6F0", minHeight: "100vh", fontFamily: "'Public Sans', sans-serif",
+      "--color-primary": settings?.primary_color || "#6B4635",
+      "--color-gold": settings?.accent_color || "#B9812E",
+    }}>
       {view === "loja" && settings && (
         <Header settings={settings} onNav={scrollTo} cartCount={cartCount} onCartClick={() => setCartOpen(true)} />
       )}
